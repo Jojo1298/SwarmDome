@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 5,
-			"architecture" : "x86",
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 79.0, 1212.0, 687.0 ],
+		"rect" : [ -1422.0, 69.0, 1212.0, 687.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -44,7 +44,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1153.0, 673.0, 60.0, 22.0 ],
-					"presentation_rect" : [ 1162.666748, 679.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "/alpha $1"
 				}
@@ -81,7 +80,7 @@
 					"numinlets" : 6,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1153.0, 624.0, 102.0, 35.0 ],
+					"patching_rect" : [ 1153.0, 624.0, 102.0, 36.0 ],
 					"style" : "",
 					"text" : "scale 0 127 255. 0."
 				}
@@ -173,7 +172,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 629.0, 624.0, 99.0, 22.0 ],
-					"presentation_rect" : [ 625.0, 514.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "scale 0 127 0. 5."
 				}
@@ -187,7 +185,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 479.0, 629.0, 99.0, 22.0 ],
-					"presentation_rect" : [ 475.0, 519.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "scale 0 127 0. 5."
 				}
@@ -352,7 +349,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1013.666687, 673.0, 109.0, 22.0 ],
-					"presentation_rect" : [ 868.0, 522.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "/connectionDist $1"
 				}
@@ -366,7 +362,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 881.333313, 673.0, 84.0, 22.0 ],
-					"presentation_rect" : [ 728.0, 523.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "/maxForce $1"
 				}
@@ -380,7 +375,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 758.0, 673.0, 88.0, 22.0 ],
-					"presentation_rect" : [ 642.0, 524.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "/maxSpeed $1"
 				}
@@ -437,7 +431,7 @@
 							"major" : 7,
 							"minor" : 3,
 							"revision" : 5,
-							"architecture" : "x86",
+							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
@@ -516,7 +510,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 251.5, 370.216309, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "40 0"
+									"text" : "510 0"
 								}
 
 							}
@@ -768,7 +762,7 @@
 							"major" : 7,
 							"minor" : 3,
 							"revision" : 5,
-							"architecture" : "x86",
+							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
@@ -1216,7 +1210,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 149.0, 141.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "1000"
+					"text" : "1080"
 				}
 
 			}
@@ -1229,7 +1223,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 88.916672, 141.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "1000"
+					"text" : "1080"
 				}
 
 			}
@@ -1355,7 +1349,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 516.0, 17.0, 150.0, 47.0 ],
+					"patching_rect" : [ 516.0, 17.0, 150.0, 48.0 ],
 					"style" : "",
 					"text" : "Processing 1100\nMax 12000\nReaper 13000"
 				}
@@ -1367,9 +1361,9 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 479.0, 784.0, 172.0, 22.0 ],
+					"patching_rect" : [ 479.0, 784.0, 146.0, 22.0 ],
 					"style" : "",
-					"text" : "udpsend 141.22.95.214 11000"
+					"text" : "udpsend 127.0.0.1 11000"
 				}
 
 			}
@@ -1791,25 +1785,25 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-23" : [ "live.dial[2]", "Sep", 0 ],
 			"obj-73" : [ "live.dial[6]", "Alpha", 0 ],
-			"obj-18" : [ "live.dial", "Coh", 0 ],
-			"obj-19" : [ "Allgnmt", "Algnmt", 0 ],
-			"obj-25" : [ "live.dial[4]", "Force", 0 ],
 			"obj-27" : [ "live.dial[5]", "ConDist", 0 ],
-			"obj-24" : [ "live.dial[3]", "Speed", 0 ]
+			"obj-25" : [ "live.dial[4]", "Force", 0 ],
+			"obj-24" : [ "live.dial[3]", "Speed", 0 ],
+			"obj-23" : [ "live.dial[2]", "Sep", 0 ],
+			"obj-18" : [ "live.dial", "Coh", 0 ],
+			"obj-19" : [ "Allgnmt", "Algnmt", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "oscToIem.maxpat",
-				"bootpath" : "~/Documents/Max/Projects/Fulldome Converter/patchers",
+				"bootpath" : "E:/Projekte/Ott_Deiss_Wienboeker_Planetarium_31.03.19/SwarmDome/Fulldome Converter/patchers",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "ambimonitor.mxo",
-				"type" : "iLaX"
+				"name" : "ambimonitor.mxe64",
+				"type" : "mx64"
 			}
  ],
 		"autosave" : 0

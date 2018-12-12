@@ -22,17 +22,17 @@ NetAddress max;
 PGraphics img;
 
 void setup() {
-  size(3000, 3000,P2D);
+  size(1080, 1080,P2D);
   img = createGraphics(width,height,P2D);
   flock = new Flock();
   // Add an initial set of boids into the system
   for (int i = 0; i < boidAmount; i++) {
     flock.addBoid(new Boid(img.width/2, img.height/2,i));
   }
-  frameRate(60);
+  frameRate(30);
   
   oscP5 = new OscP5(this,11000);
-  max = new NetAddress("141.22.73.45",12000);
+  max = new NetAddress("localhost",12000);
   
   OscMessage widthMessage = new OscMessage("/width");
   widthMessage.add(width);

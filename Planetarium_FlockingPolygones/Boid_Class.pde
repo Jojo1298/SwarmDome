@@ -102,7 +102,7 @@ class Boid {
       x = r*cos(insideTheta);
       y =r*sin(insideTheta);
       
-     if(!keyPressed){
+     if(keyPressed){
        img.stroke(255); 
       img.fill(255);
       img.strokeWeight(2);
@@ -249,28 +249,5 @@ class Boid {
   }
       
   
- void integrate(ArrayList<Boid> boids)
-  {
-   if(millis()>2000)
-   {
-      float dist = r;
-      for (int i = 0; i < boids.size()-1; i ++)
-      {
-        Boid other = boids.get(i);
-        float d = PVector.dist(position, other.position);
-        if((d>0) && (d<dist) && (polyCount != other.polyCount))
-        {
-          polyCount += other.polyCount;
-          r += .2;
-          other.visible = false;
-          if(polyCount > maxPolys)
-          {
-            polyCount = maxPolys;
-          }
-        //  boids.remove(i);
-          
-        }
-      }
-   }
-  }
+ 
 }
