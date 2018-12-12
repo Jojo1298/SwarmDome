@@ -1,3 +1,4 @@
+
 class Boid {
 
   PVector position;
@@ -9,6 +10,7 @@ class Boid {
   OscMessage boidOsc;
   int index;
   int neighbours;
+  int flag;
   
   Boid(float x, float y, int boidIndex) {
     acceleration = new PVector(0, 0);
@@ -22,6 +24,8 @@ class Boid {
     polyCount = int(random(3,maxPolys+1));
    
     index = boidIndex;
+    
+    flag = 0;
   }
 
   void run(ArrayList<Boid> boids) {
@@ -60,6 +64,7 @@ class Boid {
     applyForce(coh);
     
     neighbours = getNeighbours(boids);
+    drawLines(boids);
     //println(neighbours);
   }
 
@@ -130,7 +135,12 @@ class Boid {
   void borders() {
     PVector center = new PVector(width/2,height/2);
     PVector dist = PVector.sub(center,position);
-    if (dist.mag() > width/2 || dist.mag() > height/2) velocity.mult(-1);
+    if (dist.mag() > width/2 || dist.mag() > height/2)
+    {
+     velocity.mult(-1);
+     velocity.add(dist);
+    }
+    
   /*  if (position.x < -r) position.x = img.width+r;
     if (position.y < -r) position.y = img.height+r;
     if (position.x > img.width+r) position.x = -r;
@@ -228,26 +238,37 @@ class Boid {
   int getNeighbours (ArrayList<Boid> boids){
     float neighbordist = connectionDist;
     int Neighbours = 0;
+       
+    for(Boid other: boids){
+      float dist = PVector.dist(position, other.position);     
+      if((dist>r) && (dist<neighbordist)){        
+        Neighbours++;           
+      }
+    }
+    return Neighbours;
+  }
+  
+  
+  void drawLines(ArrayList<Boid> boids)
+  {
+    float neighbordist = connectionDist; 
+    int Neighbours = 0;
     float g = map(position.x,0,width,0,255);
     float b = map(position.y,0,height,0,255);
     
     for(Boid other: boids){
       float dist = PVector.dist(position, other.position);
       
-      if((dist>r) && (dist<neighbordist)){
-        float d = map(dist,1,neighbordist,0,255);
-        Neighbours++;
-        img.stroke(255-d,g-d,b-d);
-        float distToStrokeWeight = map(dist,0,neighbordist,5,0);
-        img.strokeWeight(distToStrokeWeight);
+    if((dist>r) && (dist<neighbordist)){  
+      Neighbours++;    
+      float d = map(dist,1,neighbordist,0,255);
+      img.stroke(255-d,g-d,b-d);
+      float distToStrokeWeight = map(dist,0,neighbordist,5,0);
+      img.strokeWeight(distToStrokeWeight);
+      
         if(Neighbours>2){
         img.line(position.x,position.y,other.position.x,other.position.y);}
-        
-      }
     }
-    return Neighbours;
+    }
   }
-      
-  
- 
 }

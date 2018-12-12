@@ -2,8 +2,8 @@ import oscP5.*;
 import netP5.*;
 
 Flock flock;
-int boidAmount = 50;
-float boidSize = 20;
+int boidAmount = 70;
+float boidSize = 30;
 float connectionDist = 100;
 float maxforce  = 0.03;   // Maximum steering force
 float maxspeedInit  = 3.5;  // Maximum speed
@@ -11,8 +11,9 @@ float maxspeed = maxspeedInit;
 float seperationForce = 3.0;
 float alignmentForce = 1.0;
 float cohesionForce = 2.0;
-int maxPolys = 6;
+int maxPolys = 3;
 float alpha = 255;
+int flagCount = 0;
 
 OscP5 oscP5;
 NetAddress max;
@@ -60,7 +61,7 @@ void draw() {
   println(maxforce,maxspeed,cohesionForce,alignmentForce,seperationForce,connectionDist,alpha);
   
   if(mousePressed && mouseButton==RIGHT)
-  {maxspeed = 10;
+  {maxspeed = 7;
   flock.gravitate(mouseX,mouseY);}
   else maxspeed = maxspeedInit;
 
