@@ -246,35 +246,38 @@ class Boid {
     for (Boid other : boids) {
       float d = PVector.dist(position, other.position);
       if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
-        if(other.flag>0){
+        if(other.flag>-1){
+          clusterNachbar=true;
           neighborFlags[other.flag]++;
         }else count++;
       }
     }
       if (clusterNachbar) {      //zu welchem cluster gehört der boid?
         int highest= max(neighborFlags);      //höchste anzahl der selben flag
+        //println(highest);
         for(int i=0;i<neighborFlags.length;i++){    //welcher index hat diese anzahl?
           if(neighborFlags[i]==highest){
             flag=i;                  //setze meine flag auf den neuen cluster
-            cluster[i].add(position);    //addiere meine position zu dem cluster
+            clusterList[i].add(position);    //addiere meine position zu dem cluster
           }
         }
       }else if (count >2) {     //neuer cluster ist gebildet!
-        for (int i=0;i<cluster.length;i++){  //prüfe alle ss um eine zu finden die nicht benutzt wird
-          if (cluster[i].size()==0){
+        for (int i=0;i<clusterList.length;i++){  //prüfe alle ss um eine zu finden die nicht benutzt wird
+          if (clusterList[i].pos.size()==0){
             flag=i;                          //setze meine flag auf den neuen cluster
-            cluster[i].add(position);        //addiere meine position zu dem cluster
+            clusterList[i].add(position);        //addiere meine position zu dem cluster
             for (Boid other : boids) {
                 float d = PVector.dist(position, other.position);
                 if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
                   other.flag=i;              //setzte nachbar flags auf den cluster
-                  cluster[i].add(other.position);//addiere nachbarn positions
+                  clusterList[i].add(other.position);//addiere nachbarn positions
                 }
             }
-            i= cluster.length;// abbruch!
+            i= clusterList.length;// abbruch!
           }
         }
       }
+      //img.text(count,position.x,position.y);
     }
   
   

@@ -1,6 +1,6 @@
 import oscP5.*;
 import netP5.*;
-
+Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 70;
@@ -15,8 +15,7 @@ float cohesionForce = 2.0;
 int maxPolys = 3;
 float alpha = 255;
 int flagCount = 0;
-//ArrayList<PVector> positions; //arraylist für die positionen der boids die zu einem cluster gehören
-ArrayList [] cluster = new ArrayList[ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
+Cluster [] clusterList = new Cluster [ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
 
 OscP5 oscP5;
 NetAddress max;
@@ -46,9 +45,8 @@ void setup() {
   heightMessage.add(height);
   oscP5.send(heightMessage,max);
   background(0);
-  for(int i=0; i< cluster.length;i++){
-  cluster[i]= new ArrayList<PVector>();
-  println(cluster[i].size());
+  for(int i=0; i< clusterList.length;i++){
+  clusterList[i]= new Cluster();
   }
 }
 
@@ -84,7 +82,23 @@ void mousePressed() {
 }
 
 
-
+class Cluster{
+  ArrayList<PVector> pos;
+  Cluster(){
+    pos= new ArrayList<PVector>();
+  }
+  void add(PVector vector){
+    pos.add(vector);
+  }
+  PVector getMean(){
+    PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
+        for (PVector other : pos) {
+            sum.add(other); // Add position
+        }
+        sum.div(pos.size());
+        return sum;
+  }
+}
 // The Flock (a list of Boid objects)
 
 class Flock {
@@ -97,14 +111,25 @@ class Flock {
 
   void run() {
     for (Boid b : boids) {
+      //print(b.flag);
       b.flag=-1;
     }   
+    //println();
     for (Boid b : boids) {
       b.run(boids);  // Passing the entire list of boids to each boid individually
       
     
     //println(b.boidOsc);
-   }   
+   }
+   for(int i=0;i<clusterList.length;i++){
+     PVector mean= clusterList[i].getMean();
+     clusterList[i].pos.clear();
+     img.ellipse(mean.x,mean.y,10,10);
+        
+        
+
+     }
+    
   }
 
   void addBoid(Boid b) {
