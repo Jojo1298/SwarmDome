@@ -2,6 +2,7 @@ import oscP5.*;
 import netP5.*;
 
 Flock flock;
+int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 70;
 float boidSize = 30;
 float connectionDist = 100;
@@ -14,6 +15,8 @@ float cohesionForce = 2.0;
 int maxPolys = 3;
 float alpha = 255;
 int flagCount = 0;
+//ArrayList<PVector> positions; //arraylist für die positionen der boids die zu einem cluster gehören
+ArrayList [] cluster = new ArrayList[ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
 
 OscP5 oscP5;
 NetAddress max;
@@ -43,6 +46,10 @@ void setup() {
   heightMessage.add(height);
   oscP5.send(heightMessage,max);
   background(0);
+  for(int i=0; i< cluster.length;i++){
+  cluster[i]= new ArrayList<PVector>();
+  println(cluster[i].size());
+  }
 }
 
 
@@ -58,7 +65,7 @@ void draw() {
   img.endDraw();
   //img.save("exports/Frame_" + frameCount + ".jpg");
   image(img,0,0);
-  println(maxforce,maxspeed,cohesionForce,alignmentForce,seperationForce,connectionDist,alpha);
+  //println(maxforce,maxspeed,cohesionForce,alignmentForce,seperationForce,connectionDist,alpha);
   
   if(mousePressed && mouseButton==RIGHT)
   {maxspeed = 7;
@@ -89,7 +96,9 @@ class Flock {
   
 
   void run() {
- 
+    for (Boid b : boids) {
+      b.flag=-1;
+    }   
     for (Boid b : boids) {
       b.run(boids);  // Passing the entire list of boids to each boid individually
       
@@ -112,7 +121,7 @@ class Flock {
     PVector steer = PVector.sub(desired,b.velocity);
     steer.mult(dist);  
     b.applyForce(steer);
-    println(steer);
+    //println(steer);
     }
   }
   
