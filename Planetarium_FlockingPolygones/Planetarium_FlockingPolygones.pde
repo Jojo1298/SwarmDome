@@ -132,7 +132,6 @@ class Flock {
      OscMessage meanGain = new OscMessage("/gain");
      meanGain.add(new int[] {i,int(clusterList[i].pos.size())});  
      oscP5.send(meanGain,max);
-
      clusterList[i].pos.clear();
    }
     
