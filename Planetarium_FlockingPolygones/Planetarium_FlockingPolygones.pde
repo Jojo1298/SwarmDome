@@ -4,7 +4,7 @@ Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 20;
-float boidSize = 30;
+float boidSize = 40;
 float connectionDist = 100;
 float maxforce  = 0.03;   // Maximum steering force
 float maxspeedInit  = 3.5;  // Maximum speed
@@ -12,7 +12,7 @@ float maxspeed = maxspeedInit;
 float seperationForce = 3.0;
 float alignmentForce = 1.0;
 float cohesionForce = 2.0;
-int maxPolys = 3;
+int maxPolys = 5;
 float alpha = 255;
 int flagCount = 0;
 Cluster [] clusterList = new Cluster [ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
