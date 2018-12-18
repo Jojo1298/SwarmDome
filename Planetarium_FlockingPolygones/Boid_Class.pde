@@ -261,7 +261,7 @@ class Boid {
             clusterList[i].add(position);    //addiere meine position zu dem cluster
           }
         }
-      }else if (count >2) {     //neuer cluster ist gebildet!
+      }else if (count > 2) {     //neuer cluster ist gebildet!
         for (int i=0;i<clusterList.length;i++){  //prüfe alle ss um eine zu finden die nicht benutzt wird
           if (clusterList[i].pos.size()==0){
             flag=i;                          //setze meine flag auf den neuen cluster

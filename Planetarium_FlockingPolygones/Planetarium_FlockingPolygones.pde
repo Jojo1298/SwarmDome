@@ -3,7 +3,7 @@ import netP5.*;
 Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
-int boidAmount = 70;
+int boidAmount = 10;
 float boidSize = 30;
 float connectionDist = 100;
 float maxforce  = 0.03;   // Maximum steering force
@@ -25,7 +25,7 @@ NetAddress max;
 PGraphics img;
 
 void setup() {
-  size(1080, 1080,P2D);
+  size(880, 880,P2D);
   img = createGraphics(width,height,P2D);
   flock = new Flock();
   // Add an initial set of boids into the system
@@ -122,13 +122,19 @@ class Flock {
     //println(b.boidOsc);
    }
    for(int i=0;i<clusterList.length;i++){
-     PVector mean= clusterList[i].getMean();
-     clusterList[i].pos.clear();
-     img.ellipse(mean.x,mean.y,10,10);
-        
-        
-
+     if (clusterList[i].pos.size()>0){
+       PVector mean= clusterList[i].getMean();
+       OscMessage meanPoint = new OscMessage("/source");
+       meanPoint.add(new int[] {i,int(mean.x),int(mean.y)});  
+       oscP5.send(meanPoint,max);
+       img.ellipse(mean.x,mean.y,10,10);
      }
+     OscMessage meanGain = new OscMessage("/gain");
+     meanGain.add(new int[] {i,int(clusterList[i].pos.size())});  
+     oscP5.send(meanGain,max);
+
+     clusterList[i].pos.clear();
+   }
     
   }
 
