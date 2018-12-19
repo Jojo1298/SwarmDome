@@ -11,6 +11,7 @@ class Boid {
   int index;
   int neighbours;
   int flag;
+  int oldFlag;
   
   Boid(float x, float y, int boidIndex) {
     acceleration = new PVector(0, 0);
@@ -26,6 +27,7 @@ class Boid {
     index = boidIndex;
     
     flag = -1;
+    oldFlag= -1;
   }
 
   void run(ArrayList<Boid> boids) {
@@ -262,20 +264,32 @@ class Boid {
           }
         }
       }else if (count > 2) {     //neuer cluster ist gebildet!
-        for (int i=0;i<clusterList.length;i++){  //prüfe alle ss um eine zu finden die nicht benutzt wird
-          if (clusterList[i].pos.size()==0){
-            flag=i;                          //setze meine flag auf den neuen cluster
-            clusterList[i].add(position);        //addiere meine position zu dem cluster
-            for (Boid other : boids) {
-                float d = PVector.dist(position, other.position);
-                if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
-                  other.flag=i;              //setzte nachbar flags auf den cluster
-                  clusterList[i].add(other.position);//addiere nachbarn positions
-                }
+        if (oldFlag == -1){ 
+          for (int i=0;i<clusterList.length;i++){  //prüfe alle ss um eine zu finden die nicht benutzt wird
+            if (clusterList[i].pos.size()==0){
+              flag=i;                          //setze meine flag auf den neuen cluster
+              clusterList[i].add(position);        //addiere meine position zu dem cluster
+              for (Boid other : boids) {
+                  float d = PVector.dist(position, other.position);
+                  if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
+                    other.flag=i;              //setzte nachbar flags auf den cluster
+                    clusterList[i].add(other.position);//addiere nachbarn positions
+                  }
+              }
+              i= clusterList.length;// abbruch!
             }
-            i= clusterList.length;// abbruch!
           }
+        } else {
+          flag=oldFlag;                          //setze meine flag auf den neuen cluster
+          clusterList[oldFlag].add(position);
+          for (Boid other : boids) {
+            float d = PVector.dist(position, other.position);
+            if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
+              other.flag=oldFlag;              //setzte nachbar flags auf den cluster
+              clusterList[oldFlag].add(other.position);//addiere nachbarn positions
+            }
         }
+      }
       }
       //img.text(count,position.x,position.y);
     }

@@ -3,7 +3,7 @@ import netP5.*;
 Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
-int boidAmount = 20;
+int boidAmount = 100;
 float boidSize = 40;
 float connectionDist = 100;
 float maxforce  = 0.03;   // Maximum steering force
@@ -12,7 +12,7 @@ float maxspeed = maxspeedInit;
 float seperationForce = 3.0;
 float alignmentForce = 1.0;
 float cohesionForce = 2.0;
-int maxPolys = 5;
+int maxPolys = 3;
 float alpha = 255;
 int flagCount = 0;
 Cluster [] clusterList = new Cluster [ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
@@ -112,6 +112,7 @@ class Flock {
   void run() {
     for (Boid b : boids) {
       //print(b.flag);
+      b.oldFlag=b.flag;
       b.flag=-1;
     }   
     //println();
