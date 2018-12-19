@@ -3,7 +3,7 @@ import netP5.*;
 Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
-int boidAmount = 100;
+int boidAmount = 20;
 float boidSize = 40;
 float connectionDist = 100;
 float maxforce  = 0.03;   // Maximum steering force

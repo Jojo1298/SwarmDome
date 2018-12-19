@@ -279,7 +279,7 @@ class Boid {
               i= clusterList.length;// abbruch!
             }
           }
-        } else {
+        } else if (clusterList[oldFlag].pos.size()==0){
           flag=oldFlag;                          //setze meine flag auf den neuen cluster
           clusterList[oldFlag].add(position);
           for (Boid other : boids) {
