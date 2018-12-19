@@ -3,9 +3,10 @@ import netP5.*;
 Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
-int boidAmount = 20;
-float boidSize = 40;
+int boidAmount = 70;
+float boidSize = 20;
 float connectionDist = 100;
+float seperationDist = 50;
 float maxforce  = 0.03;   // Maximum steering force
 float maxspeedInit  = 3.5;  // Maximum speed
 float maxspeed = maxspeedInit;
