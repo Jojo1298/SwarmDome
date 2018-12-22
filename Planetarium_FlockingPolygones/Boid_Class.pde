@@ -12,6 +12,8 @@ class Boid {
   int neighbours;
   int flag;
   int oldFlag;
+  color c;
+  boolean overrideColor = false;
   
   Boid(float x, float y, int boidIndex) {
     acceleration = new PVector(0, 0);
@@ -67,7 +69,11 @@ class Boid {
     applyForce(coh);
     
     neighbours = getNeighbours(boids);
+    
+    if(draw)
+    {
     drawLines(boids);
+    }  
     //println(neighbours);
   }
 
@@ -322,7 +328,10 @@ class Boid {
     if((dist>r) && (dist<neighbordist)){  
       Neighbours++;    
       float d = map(dist,1,neighbordist,0,255);
-      img.stroke(255-d,g-d,b-d);
+      if(!overrideColor){
+      c = color(255-d,g-d,b-d);
+      }
+      img.stroke(c);
       float distToStrokeWeight = map(dist,0,neighbordist,5,0);
       img.strokeWeight(distToStrokeWeight);
       
