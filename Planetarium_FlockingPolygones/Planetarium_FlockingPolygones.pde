@@ -130,6 +130,9 @@ void mouseClicked() {
          connect = true;
          break;
     case 5:
+      iterate = 0;
+      break;
+    case 6:
       maxspeed = maxspeedInit;
       maxforce = maxforceInit;
       draw = true;
@@ -231,8 +234,10 @@ class Flock {
            // println(i);
             float a = map(i,0,it,0,255);
             img.stroke(b.c, a);
+            img.fill(b.c,a);
             //img.strokeWeight(2);
-            img.line(b.position.x,b.position.y,other.position.x,other.position.y);
+            if (fxCount == 4)img.line(b.position.x,b.position.y,other.position.x,other.position.y);
+           if(fxCount == 5) img.ellipse(b.position.x,b.position.y,float(40-b.neighbours),float(40-b.neighbours));
           }
         }
       }
