@@ -86,6 +86,7 @@ class Boid {
     position.add(velocity);
     // Reset accelertion to 0 each cycle
     acceleration.mult(0);
+    if(polyCount>maxPolys)polyCount=maxPolys;
     
   }
 
@@ -116,7 +117,7 @@ class Boid {
       x = r*cos(insideTheta);
       y =r*sin(insideTheta);
       
-     if(keyPressed){
+     if(keyPressed&&key!='r'){
        img.stroke(255); 
       img.fill(255);
       img.text(flag,position.x,position.y);
@@ -167,7 +168,7 @@ class Boid {
     for (Boid other : boids) {
       float d = PVector.dist(position, other.position);
       // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
-      if ((d > 0) && (d < desiredseparation)&& (polyCount==other.polyCount) ) {
+      if ((d > 0) && (d < desiredseparation)){
         // Calculate vector pointing away from neighbor
         PVector diff = PVector.sub(position, other.position);
         diff.normalize();
