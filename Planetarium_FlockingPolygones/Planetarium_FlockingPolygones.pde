@@ -296,6 +296,7 @@ void oscEvent(OscMessage theOscMessage) {
   }
   if (theOscMessage.checkAddrPattern("/polys")==true) {
    maxPolys = theOscMessage.get(0).intValue();
-   flock.newRandomPolys();
+   println(maxPolys);
+  flock.newRandomPolys();
   }
 }
