@@ -4,7 +4,7 @@ Cluster cluster;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 50;
-float boidSize = 20;
+float boidSize = 30;
 float connectionDist = 100;
 float seperationDist = 50;
 float maxforceInit = 0.03;
@@ -14,10 +14,11 @@ float maxspeed = maxspeedInit;
 float seperationForce = 3.0;
 float alignmentForce = 1.0;
 float cohesionForce = 2.0;
-int maxPolys = 3;
+int maxPolys = 5;
 float alpha = 255;
 int flagCount = 0;
 Cluster [] clusterList = new Cluster [ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
+boolean record = false;
 
 OscP5 oscP5;
 NetAddress max;
@@ -77,7 +78,7 @@ void draw() {
       iterate ++;
     }
   img.endDraw();
-  //img.save("exports/Frame_" + frameCount + ".jpg");
+  if(record)img.save("exports/Frame_" + frameCount + ".jpg");
   image(img, 0, 0);
   //println(maxforce,maxspeed,cohesionForce,alignmentForce,seperationForce,connectionDist,alpha);
 
@@ -145,6 +146,17 @@ void mouseClicked() {
   //flock.gravitate(mouseX,mouseY);
 }
 
+void keyPressed()
+{
+  if(key=='r')record=!record;
+  /*f(key =='t')maxPolys = 3;
+  if(key =='z')
+    {
+      maxPolys = 7;
+      flock.newRandomPolys();
+    }*/
+}
+
 
 class Cluster {
   ArrayList<PVector> pos;
@@ -182,8 +194,7 @@ class Flock {
     //println();
     for (Boid b : boids) {
       b.run(boids);  // Passing the entire list of boids to each boid individually
-
-
+      
       //println(b.boidOsc);
     }
     for (int i=0; i<clusterList.length; i++) {
@@ -192,7 +203,7 @@ class Flock {
         OscMessage meanPoint = new OscMessage("/source");
         meanPoint.add(new int[] {i, int(mean.x), int(mean.y)});  
         oscP5.send(meanPoint, max);
-        if (keyPressed) img.ellipse(mean.x, mean.y, 10, 10);
+        if (keyPressed&&key!='r') img.ellipse(mean.x, mean.y, 10, 10);
       }
       OscMessage meanGain = new OscMessage("/gain");
       meanGain.add(new int[] {i, int(clusterList[i].pos.size())});  
@@ -243,6 +254,14 @@ class Flock {
       }
     }
   }
+  
+  void newRandomPolys()
+   {
+     for (Boid b : boids)
+      {
+        b.polyCount = int(random(3,maxPolys));
+      }
+   }
 }
 
 
@@ -274,5 +293,9 @@ void oscEvent(OscMessage theOscMessage) {
   } 
   if (theOscMessage.checkAddrPattern("/alpha")==true) {
     alpha = theOscMessage.get(0).floatValue();
+  }
+  if (theOscMessage.checkAddrPattern("/polys")==true) {
+   maxPolys = theOscMessage.get(0).intValue();
+   flock.newRandomPolys();
   }
 }
