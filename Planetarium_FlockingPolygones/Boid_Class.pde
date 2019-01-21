@@ -36,7 +36,6 @@ class Boid {
  if(visible)
  {
     flock(boids);
-    assingCluster(boids);
     update();
     borders();
     render();
@@ -117,7 +116,7 @@ class Boid {
       x = r*cos(insideTheta);
       y =r*sin(insideTheta);
       
-     if(keyPressed&&key!='r'){
+     if(keyPressed&&key=='s'){
        img.stroke(255); 
       img.fill(255);
       img.text(flag,position.x,position.y);
@@ -244,62 +243,6 @@ class Boid {
     }
   }
   
-  void assingCluster (ArrayList<Boid> boids) {  //jeder boid bestimmt für sich den cluster zu dem er gehört
-    float neighbordist = 100;
-    int[]neighborFlags= new int[ssAmount]; //Array in dem die flags der nachbarn gezählt werden
-    for (int i= 0; i < neighborFlags.length;i++){ //erstmall sind alle 0
-      neighborFlags[i]=0;
-    }
-    int count = 0;
-    boolean clusterNachbar= false;
-    for (Boid other : boids) {
-      float d = PVector.dist(position, other.position);
-      if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
-        if(other.flag>-1){
-          clusterNachbar=true;
-          neighborFlags[other.flag]++;
-        }else count++;
-      }
-    }
-      if (clusterNachbar) {      //zu welchem cluster gehört der boid?
-        int highest= max(neighborFlags);      //höchste anzahl der selben flag
-        //println(highest);
-        for(int i=0;i<neighborFlags.length;i++){    //welcher index hat diese anzahl?
-          if(neighborFlags[i]==highest){
-            flag=i;                  //setze meine flag auf den neuen cluster
-            clusterList[i].add(position);    //addiere meine position zu dem cluster
-          }
-        }
-      }else if (count > 2) {     //neuer cluster ist gebildet!
-        if (oldFlag == -1){ 
-          for (int i=0;i<clusterList.length;i++){  //prüfe alle ss um eine zu finden die nicht benutzt wird
-            if (clusterList[i].pos.size()==0){
-              flag=i;                          //setze meine flag auf den neuen cluster
-              clusterList[i].add(position);        //addiere meine position zu dem cluster
-              for (Boid other : boids) {
-                  float d = PVector.dist(position, other.position);
-                  if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
-                    other.flag=i;              //setzte nachbar flags auf den cluster
-                    clusterList[i].add(other.position);//addiere nachbarn positions
-                  }
-              }
-              i= clusterList.length;// abbruch!
-            }
-          }
-        } else if (clusterList[oldFlag].pos.size()==0){
-          flag=oldFlag;                          //setze meine flag auf den neuen cluster
-          clusterList[oldFlag].add(position);
-          for (Boid other : boids) {
-            float d = PVector.dist(position, other.position);
-            if ((d > 0) && (d < neighbordist) && (polyCount==other.polyCount)) {
-              other.flag=oldFlag;              //setzte nachbar flags auf den cluster
-              clusterList[oldFlag].add(other.position);//addiere nachbarn positions
-            }
-        }
-      }
-      }
-      //img.text(count,position.x,position.y);
-    }
   
   
   int getNeighbours (ArrayList<Boid> boids){

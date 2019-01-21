@@ -1,6 +1,6 @@
 import oscP5.*;
 import netP5.*;
-Cluster cluster;
+
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 50;
@@ -17,7 +17,6 @@ float cohesionForce = 2.0;
 int maxPolys = 5;
 float alpha = 255;
 int flagCount = 0;
-Cluster [] clusterList = new Cluster [ssAmount]; //array für die cluster (definiert durch die positions der zugehörigen boids)
 boolean record = false;
 
 OscP5 oscP5;
@@ -56,9 +55,6 @@ void setup() {
   heightMessage.add(height);
   oscP5.send(heightMessage, max);
   background(0);
-  for (int i=0; i< clusterList.length; i++) {
-    clusterList[i]= new Cluster();
-  }
 }
 
 
@@ -93,15 +89,37 @@ void draw() {
 void mouseClicked() {
 
   if (mouseButton==LEFT) {
-    fxCount++;
-    switch (fxCount) {
-    case 1:
+   
+
       boidAmount++;
       flock.addBoid(new Boid(mouseX, mouseY, boidAmount));
-      break;
-    case 2:
+  
+  }
 
-      maxspeed = 0;
+  //flock.gravitate(mouseX,mouseY);
+}
+
+void keyPressed()
+{
+  if(key=='r')record=!record;
+  
+  if(key=='1')
+  {
+    maxspeed = maxspeedInit;
+    maxforce = maxforceInit;
+    draw = true;
+    connect = false;
+    for (Boid b : flock.boids)
+         {
+           b.overrideColor = false;
+         }
+  }
+  
+   if(key=='2')
+  {
+    maxforce = maxforceInit;
+    draw = true;
+    maxspeed = 0;
       for (float i = maxforce; i>0; i-=.002)
       {
         maxforce -= i;
@@ -113,158 +131,29 @@ void mouseClicked() {
          b.overrideColor = true;
          b.c = color(r-10*b.flag,180-b.getNeighbours(flock.boids),g);
        }
-     
-      break;
-    case 3:
-      maxspeed = maxspeedInit;
-      maxforce = maxforceInit;
-      break;
-    case  4:
-      maxspeed = 0;
-      maxforce = 0.0008;
-      iterate = 0;
-      draw = false;
+  }
+  
+    if(key=='3')
+  {
+    maxspeed = 0;
+    maxforce = 0.0008;
+    iterate = 0;
+    draw = false;
         for (Boid b : flock.boids)
          {
            b.overrideColor = false;
          }
-         connect = true;
-         break;
-    case 5:
-      iterate = 0;
-      break;
-    case 6:
-      maxspeed = maxspeedInit;
-      maxforce = maxforceInit;
-      draw = true;
-      connect = false;
-      fxCount = 0;
-      break;
-    }
-  }
-
-  //flock.gravitate(mouseX,mouseY);
-}
-
-void keyPressed()
-{
-  if(key=='r')record=!record;
-  /*f(key =='t')maxPolys = 3;
-  if(key =='z')
-    {
-      maxPolys = 7;
-      flock.newRandomPolys();
-    }*/
-}
-
-
-class Cluster {
-  ArrayList<PVector> pos;
-  Cluster() {
-    pos= new ArrayList<PVector>();
-  }
-  void add(PVector vector) {
-    pos.add(vector);
-  }
-  PVector getMean() {
-    PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
-    for (PVector other : pos) {
-      sum.add(other); // Add position
-    }
-    sum.div(pos.size());
-    return sum;
-  }
-}
-// The Flock (a list of Boid objects)
-
-class Flock {
-  ArrayList<Boid> boids; // An ArrayList for all the boids
-  float d;
-  Flock() {
-    boids = new ArrayList<Boid>(); // Initialize the ArrayList
-  }
-
-
-  void run() {
-    for (Boid b : boids) {
-      //print(b.flag);
-      b.oldFlag=b.flag;
-      b.flag=-1;
-    }   
-    //println();
-    for (Boid b : boids) {
-      b.run(boids);  // Passing the entire list of boids to each boid individually
-      
-      //println(b.boidOsc);
-    }
-    for (int i=0; i<clusterList.length; i++) {
-      if (clusterList[i].pos.size()>0) {
-        PVector mean= clusterList[i].getMean();
-        OscMessage meanPoint = new OscMessage("/source");
-        meanPoint.add(new int[] {i, int(mean.x), int(mean.y)});  
-        oscP5.send(meanPoint, max);
-        if (keyPressed&&key!='r') img.ellipse(mean.x, mean.y, 10, 10);
-      }
-      OscMessage meanGain = new OscMessage("/gain");
-      meanGain.add(new int[] {i, int(clusterList[i].pos.size())});  
-      oscP5.send(meanGain, max);
-      clusterList[i].pos.clear();
-    }
-  }
-
-  void addBoid(Boid b) {
-    boids.add(b);
-  }
-
-  void gravitate(float posX, float posY)
-  {
-    PVector pos = new PVector(posX, posY);
-    for (Boid b : boids) {
-
-      PVector desired = PVector.sub(pos, b.position);
-      float dist = desired.mag();
-      PVector steer = PVector.sub(desired, b.velocity);
-      steer.mult(dist);  
-      b.applyForce(steer);
-      //println(steer);
-    }
-  }
-
-  void iterativeConnect(int it)
-  {
-    //if(iterate > flock.boids.size())iterate = 0;
-    //img.background(0);
-    for(int i = 0; i<it; i++)
-    {
-      for (Boid b : boids)
-      {
-        for(Boid other : boids)
-        {
-          if (b!=other && b.index == i && other.index == i+1)
-          {
-           // println(i);
-            float a = map(i,0,it,0,255);
-            img.stroke(b.c, a);
-            img.fill(b.c,a);
-            //img.strokeWeight(2);
-            if (fxCount == 4)img.line(b.position.x,b.position.y,other.position.x,other.position.y);
-           if(fxCount == 5) img.ellipse(b.position.x,b.position.y,float(40-b.neighbours),float(40-b.neighbours));
-          }
-        }
-      }
-    }
+      connect = true;
   }
   
-  void newRandomPolys()
-   {
-     for (Boid b : boids)
-      {
-        b.polyCount = int(random(3,maxPolys));
-      }
-   }
+  if(key=='4')
+  {
+    iterate = 0;
+    maxforce = 0.001;
+    connect = true;
+  }
+  
 }
-
-
 
 
 void oscEvent(OscMessage theOscMessage) {
@@ -296,7 +185,6 @@ void oscEvent(OscMessage theOscMessage) {
   }
   if (theOscMessage.checkAddrPattern("/polys")==true) {
    maxPolys = theOscMessage.get(0).intValue();
-   println(maxPolys);
-  flock.newRandomPolys();
+   flock.newRandomPolys();
   }
 }
