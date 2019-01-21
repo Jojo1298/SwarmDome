@@ -4,9 +4,9 @@ import netP5.*;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 50;
-float boidSize = 30;
-float connectionDist = 100;
-float seperationDist = 50;
+float boidSize = 70;
+float connectionDist;
+float seperationDist;
 float maxforceInit = 0.03;
 float maxforce  = maxforceInit;   // Maximum steering force
 float maxspeedInit  = 3.5;  // Maximum speed
@@ -30,12 +30,12 @@ int iterate = 0;
 boolean draw = true;
 boolean connect = false;
 
-
+String frameSuf;
 
 PGraphics img;
 
 void setup() {
-  size(880, 880, P2D);
+  size(2048, 2048, P2D);
   img = createGraphics(width, height, P2D);
   flock = new Flock();
   // Add an initial set of boids into the system
@@ -43,6 +43,9 @@ void setup() {
     flock.addBoid(new Boid(img.width/2, img.height/2, i));
   }
   frameRate(30);
+  
+  connectionDist = width/10;
+  seperationDist = boidSize*2;
 
   oscP5 = new OscP5(this, 11000);
   max = new NetAddress("localhost", 12000);
@@ -74,7 +77,12 @@ void draw() {
       iterate ++;
     }
   img.endDraw();
-  if(record)img.save("exports/Frame_" + frameCount + ".jpg");
+  if(frameCount<10)frameSuf = "0000";
+  else if(frameCount<100)frameSuf ="000";
+  else if (frameCount<1000)frameSuf="00";
+  else if (frameCount<10000)frameSuf="0";
+  else {frameSuf ="";}
+  if(record)img.save("exports/Frame_"+frameSuf+ frameCount+".tga");
   image(img, 0, 0);
   //println(maxforce,maxspeed,cohesionForce,alignmentForce,seperationForce,connectionDist,alpha);
 
