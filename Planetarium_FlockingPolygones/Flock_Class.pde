@@ -6,12 +6,7 @@ class Flock {
   }
 
 
-  void run() {
-    for (Boid b : boids) {
-      //print(b.flag);
-      b.oldFlag=b.flag;
-      b.flag=-1;
-    }   
+  void run() { 
     //println();
     for (Boid b : boids) {
       b.run(boids);  // Passing the entire list of boids to each boid individually

@@ -4,7 +4,7 @@ import netP5.*;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 50;
-float boidSize = 50;
+float boidSize = 30;
 float connectionDist;
 float seperationDist;
 float maxforceInit = 0.03;
@@ -18,6 +18,7 @@ int maxPolys = 5;
 float alpha = 255;
 int flagCount = 0;
 boolean record = false;
+int mode = 1;
 
 OscP5 oscP5;
 NetAddress max;
@@ -35,7 +36,7 @@ String frameSuf;
 PGraphics img;
 
 void setup() {
-  size(1080, 1080, P2D);
+  size(1080, 1080 , P2D);
   img = createGraphics(width, height, P2D);
   img.smooth(8);
   flock = new Flock();
@@ -138,7 +139,7 @@ void keyPressed()
          float g = map(b.position.x,0,width,0,255);
          float r = map(b.position.y,0,height,0,255);
          b.overrideColor = true;
-         b.c = color(r-10*b.flag,180-b.getNeighbours(flock.boids),g);
+         b.c = color(r-10,180-b.getNeighbours(flock.boids),g);
        }
   }
   
@@ -156,6 +157,61 @@ void keyPressed()
   }
   
   if(key=='4')
+  {
+    iterate = 0;
+    maxforce = 0.001;
+    connect = true;
+  }
+  
+}
+
+void checkMode()
+{
+
+  if(mode==1)
+  {
+    maxspeed = maxspeedInit;
+    maxforce = maxforceInit;
+    draw = true;
+    connect = false;
+    for (Boid b : flock.boids)
+         {
+           b.overrideColor = false;
+         }
+  }
+  
+   if(mode==2)
+  {
+    maxforce = maxforceInit;
+    draw = true;
+    maxspeed = 0;
+      for (float i = maxforce; i>0; i-=.002)
+      {
+        maxforce -= i;
+      }
+      for (Boid b : flock.boids)
+       {
+         float g = map(b.position.x,0,width,0,255);
+         float r = map(b.position.y,0,height,0,255);
+         b.overrideColor = true;
+         b.c = color(r-10,180-b.getNeighbours(flock.boids),g);
+       }
+  }
+  
+    if(mode==3)
+  {
+    maxspeed = 0;
+    maxforce = 0.0008;
+    iterate = 0;
+    draw = false;
+        for (Boid b : flock.boids)
+         {
+           b.overrideColor = false;
+         }
+      connect = true;
+  }
+  
+  if(mode==4)
   {
     iterate = 0;
     maxforce = 0.001;
@@ -195,5 +251,10 @@ void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/polys")==true) {
    maxPolys = theOscMessage.get(0).intValue();
    flock.newRandomPolys();
+  }
+  if (theOscMessage.checkAddrPattern("/mode")==true) {
+   mode = theOscMessage.get(0).intValue(); 
+   println(mode);
+   checkMode();
   }
 }

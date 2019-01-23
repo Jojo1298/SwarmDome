@@ -10,8 +10,7 @@ class Boid {
   OscMessage boidOsc;
   int index;
   int neighbours;
-  int flag;
-  int oldFlag;
+
   color c;
   boolean overrideColor = false;
   
@@ -28,8 +27,6 @@ class Boid {
    
     index = boidIndex;
     
-    flag = -1;
-    oldFlag= -1;
   }
 
   void run(ArrayList<Boid> boids) {
@@ -119,7 +116,7 @@ class Boid {
      if(keyPressed&&key=='s'){
        img.stroke(255); 
       img.fill(255);
-      img.text(flag,position.x,position.y);
+    //  img.text(flag,position.x,position.y);
       img.strokeWeight(2);
       img.pushMatrix();
       img.translate(position.x, position.y);
@@ -251,7 +248,7 @@ class Boid {
        
     for(Boid other: boids){
       float dist = PVector.dist(position, other.position);     
-      if((dist>r) && (dist<neighbordist)){        
+      if((dist>0) && (dist<neighbordist)){        
         Neighbours++;           
       }
     }
@@ -262,24 +259,24 @@ class Boid {
   void drawLines(ArrayList<Boid> boids)
   {
     float neighbordist = connectionDist; 
-    int Neighbours = 0;
+    int Neighbours = getNeighbours(boids);
     float g = map(position.x,0,width,0,255);
     float b = map(position.y,0,height,0,255);
     
     for(Boid other: boids){
       float dist = PVector.dist(position, other.position);
       
-    if((dist>r) && (dist<neighbordist)){  
-      Neighbours++;    
+    if((dist>0) && (dist<neighbordist)){  
+      //Neighbours++;    
       float d = map(dist,1,neighbordist,0,255);
       if(!overrideColor){
       c = color(255-d,g-d,b-d);
       }
       img.stroke(c);
-      float distToStrokeWeight = map(dist,0,neighbordist,5,0);
+      float distToStrokeWeight = map(dist,r,neighbordist,5,0);
       img.strokeWeight(distToStrokeWeight);
       
-        if(Neighbours>2){
+        if(Neighbours>0){
         img.line(position.x,position.y,other.position.x,other.position.y);}
     }
     }
