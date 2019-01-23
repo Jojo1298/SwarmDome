@@ -4,7 +4,7 @@ import netP5.*;
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 50;
-float boidSize = 70;
+float boidSize = 50;
 float connectionDist;
 float seperationDist;
 float maxforceInit = 0.03;
@@ -35,8 +35,9 @@ String frameSuf;
 PGraphics img;
 
 void setup() {
-  size(2048, 2048, P2D);
+  size(1080, 1080, P2D);
   img = createGraphics(width, height, P2D);
+  img.smooth(8);
   flock = new Flock();
   // Add an initial set of boids into the system
   for (int i = 0; i < boidAmount; i++) {
