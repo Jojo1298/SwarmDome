@@ -197,7 +197,7 @@ class Boid {
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
   PVector align (ArrayList<Boid> boids) {
-    float neighbordist = 100;
+    float neighbordist = r*3;
     PVector sum = new PVector(0, 0);
     int count = 0;
     for (Boid other : boids) {
@@ -225,7 +225,7 @@ class Boid {
   // Cohesion
   // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
   PVector cohesion (ArrayList<Boid> boids) {
-    float neighbordist = 100;
+    float neighbordist = r*3;
     PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
     int count = 0;
     for (Boid other : boids) {
@@ -294,10 +294,10 @@ class Boid {
       c = color(255-d,g-d,b-d);
       }
       img.stroke(c);
-      float distToStrokeWeight = map(dist,r,neighbordist,5,0);
+      float distToStrokeWeight = map(dist,0,neighbordist,5,0);
       img.strokeWeight(distToStrokeWeight);
       
-        if(Neighbours>0){
+        if(Neighbours>2){
         img.line(position.x,position.y,other.position.x,other.position.y);}
     }
     }

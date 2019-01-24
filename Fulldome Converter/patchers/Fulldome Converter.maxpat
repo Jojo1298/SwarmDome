@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 5,
-			"architecture" : "x86",
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 79.0, 774.0, 687.0 ],
+		"rect" : [ -1886.0, 13.0, 1852.0, 929.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -45,7 +45,7 @@
 					"patching_rect" : [ 433.0, 37.0, 150.0, 20.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 56.0, 6.5, 54.0, 33.0 ],
+					"presentation_rect" : [ 56.0, 6.5, 54.0, 34.0 ],
 					"style" : "",
 					"text" : "Refresh Midi",
 					"textjustification" : 1
@@ -197,11 +197,11 @@
 							"major" : 7,
 							"minor" : 3,
 							"revision" : 5,
-							"architecture" : "x86",
+							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 34.0, 79.0, 1212.0, 687.0 ],
+						"rect" : [ -1619.0, 101.0, 1212.0, 687.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -538,7 +538,7 @@
 											"major" : 7,
 											"minor" : 3,
 											"revision" : 5,
-											"architecture" : "x86",
+											"architecture" : "x64",
 											"modernui" : 1
 										}
 ,
@@ -615,7 +615,7 @@
 													"outlettype" : [ "" ],
 													"patching_rect" : [ 144.0, 235.0, 50.0, 22.0 ],
 													"style" : "",
-													"text" : "36."
+													"text" : "25."
 												}
 
 											}
@@ -628,7 +628,7 @@
 													"outlettype" : [ "" ],
 													"patching_rect" : [ 175.0, 179.0, 50.0, 22.0 ],
 													"style" : "",
-													"text" : "36."
+													"text" : "25."
 												}
 
 											}
@@ -768,7 +768,7 @@
 											"major" : 7,
 											"minor" : 3,
 											"revision" : 5,
-											"architecture" : "x86",
+											"architecture" : "x64",
 											"modernui" : 1
 										}
 ,
@@ -799,6 +799,7 @@
 										"tags" : "",
 										"style" : "",
 										"subpatcher_template" : "",
+										"visible" : 1,
 										"boxes" : [ 											{
 												"box" : 												{
 													"id" : "obj-2",
@@ -868,9 +869,9 @@
 													"numinlets" : 2,
 													"numoutlets" : 1,
 													"outlettype" : [ "" ],
-													"patching_rect" : [ 300.5, 258.898804, 67.0, 22.0 ],
+													"patching_rect" : [ 300.5, 258.898804, 61.0, 22.0 ],
 													"style" : "",
-													"text" : "0, $1 1000"
+													"text" : "0, $1 500"
 												}
 
 											}
@@ -896,7 +897,7 @@
 													"outlettype" : [ "" ],
 													"patching_rect" : [ 300.5, 214.898804, 50.0, 22.0 ],
 													"style" : "",
-													"text" : "22."
+													"text" : "0."
 												}
 
 											}
@@ -948,7 +949,7 @@
 													"outlettype" : [ "" ],
 													"patching_rect" : [ 434.5, 214.898804, 50.0, 22.0 ],
 													"style" : "",
-													"text" : "22."
+													"text" : "0."
 												}
 
 											}
@@ -1623,7 +1624,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 1089.0, 389.0, 50.0, 22.0 ],
 					"style" : "",
-					"text" : "4"
+					"text" : "7"
 				}
 
 			}
@@ -1724,7 +1725,7 @@
 					"numinlets" : 6,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 881.0, 340.0, 102.0, 35.0 ],
+					"patching_rect" : [ 881.0, 340.0, 102.0, 36.0 ],
 					"style" : "",
 					"text" : "scale 0 127 255. 0."
 				}
@@ -2082,7 +2083,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 516.0, 17.0, 150.0, 47.0 ],
+					"patching_rect" : [ 516.0, 17.0, 150.0, 48.0 ],
 					"style" : "",
 					"text" : "Processing 1100\nMax 12000\nReaper 13000"
 				}
@@ -2509,14 +2510,14 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-73" : [ "live.dial[6]", "Alpha", 0 ],
+			"obj-19" : [ "Allgnmt", "Algnmt", 0 ],
+			"obj-83" : [ "live.dial[7]", "Poly", 0 ],
 			"obj-27" : [ "live.dial[5]", "ConDist", 0 ],
 			"obj-25" : [ "live.dial[4]", "Force", 0 ],
 			"obj-24" : [ "live.dial[3]", "Speed", 0 ],
 			"obj-23" : [ "live.dial[2]", "Sep", 0 ],
 			"obj-18" : [ "live.dial", "Coh", 0 ],
-			"obj-83" : [ "live.dial[7]", "Poly", 0 ],
-			"obj-19" : [ "Allgnmt", "Algnmt", 0 ]
+			"obj-73" : [ "live.dial[6]", "Alpha", 0 ]
 		}
 ,
 		"dependency_cache" : [  ],

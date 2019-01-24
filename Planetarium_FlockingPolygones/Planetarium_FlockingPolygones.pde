@@ -3,8 +3,8 @@ import netP5.*;
 
 Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
-int boidAmount = 50;
-float boidSize = 30;
+int boidAmount = 100;
+float boidSize = 60;
 int resolution= 3072;
 float connectionDist;
 float seperationDist;
@@ -15,7 +15,7 @@ float maxspeed = maxspeedInit;
 float seperationForce = 3.0;
 float alignmentForce = 1.0;
 float cohesionForce = 2.0;
-int maxPolys = 5;
+int maxPolys =7;
 float alpha = 255;
 int flagCount = 0;
 boolean record = false;
@@ -48,7 +48,7 @@ void setup() {
   }
   frameRate(30);
   
-  connectionDist = img.width/10;
+  connectionDist = img.width/20;
   seperationDist = boidSize*2;
 
   oscP5 = new OscP5(this, 11000);
@@ -72,7 +72,7 @@ void draw() {
   img.stroke(255);
   img.strokeWeight(2);
   img.noFill();
-  img.ellipse(img.width/2, img.height/2, img.width, img.height);
+  //ellipse(width/2, height/2, width, height);
   flock.run();
   if(connect)
     {
@@ -92,7 +92,7 @@ void draw() {
 
   if (mousePressed && mouseButton==RIGHT)
   {
-    maxspeed = 7;
+    //maxspeed = 7;
     flock.gravitate(mouseX*(img.width/width), mouseY*(img.height/height));
   } else maxspeed = maxspeedInit;
 }
