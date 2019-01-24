@@ -50,8 +50,8 @@ class Flock {
             img.stroke(b.c, a);
             img.fill(b.c,a);
             //img.strokeWeight(2);
-            if (key == '3')img.line(b.position.x,b.position.y,other.position.x,other.position.y);
-           if(key == '4') img.ellipse(b.position.x,b.position.y,float(40-b.neighbours),float(40-b.neighbours));
+            if (key == '3' || mode == 3)img.line(b.position.x,b.position.y,other.position.x,other.position.y);
+           if(key == '4' || mode == 4) img.ellipse(b.position.x,b.position.y,float(40-b.neighbours),float(40-b.neighbours));
           }
         }
       }
