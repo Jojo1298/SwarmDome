@@ -5,6 +5,7 @@ Flock flock;
 int ssAmount =5;  //die anzahl genutzer soundsurces
 int boidAmount = 50;
 float boidSize = 30;
+int resolution= 3072;
 float connectionDist;
 float seperationDist;
 float maxforceInit = 0.03;
@@ -19,6 +20,7 @@ float alpha = 255;
 int flagCount = 0;
 boolean record = false;
 int mode = 1;
+int recnum= 0;
 
 OscP5 oscP5;
 NetAddress max;
@@ -36,8 +38,8 @@ String frameSuf;
 PGraphics img;
 
 void setup() {
-  size(1080, 1080 , P2D);
-  img = createGraphics(width, height, P2D);
+  size(1024, 1024 , P2D);
+  img = createGraphics(resolution, resolution, P2D);
   img.smooth(8);
   flock = new Flock();
   // Add an initial set of boids into the system
@@ -46,7 +48,7 @@ void setup() {
   }
   frameRate(30);
   
-  connectionDist = width/10;
+  connectionDist = img.width/10;
   seperationDist = boidSize*2;
 
   oscP5 = new OscP5(this, 11000);
@@ -70,7 +72,7 @@ void draw() {
   img.stroke(255);
   img.strokeWeight(2);
   img.noFill();
-  img.ellipse(width/2, height/2, width, height);
+  img.ellipse(img.width/2, img.height/2, img.width, img.height);
   flock.run();
   if(connect)
     {
@@ -84,14 +86,14 @@ void draw() {
   else if (frameCount<1000)frameSuf="00";
   else if (frameCount<10000)frameSuf="0";
   else {frameSuf ="";}
-  if(record)img.save("exports/Frame_"+frameSuf+ frameCount+".tga");
-  image(img, 0, 0);
+  if(record)img.save("exports/"+recnum+"#_"+"Frame_"+frameSuf+ frameCount+".tga");
+  image(img, 0, 0, width, height);
   //println(maxforce,maxspeed,cohesionForce,alignmentForce,seperationForce,connectionDist,alpha);
 
   if (mousePressed && mouseButton==RIGHT)
   {
     maxspeed = 7;
-    flock.gravitate(mouseX, mouseY);
+    flock.gravitate(mouseX*(img.width/width), mouseY*(img.height/height));
   } else maxspeed = maxspeedInit;
 }
 
@@ -102,7 +104,7 @@ void mouseClicked() {
    
 
       boidAmount++;
-      flock.addBoid(new Boid(mouseX, mouseY, boidAmount));
+      flock.addBoid(new Boid(mouseX*(img.width/width), mouseY*(img.height/height), boidAmount));
   
   }
 
@@ -111,7 +113,10 @@ void mouseClicked() {
 
 void keyPressed()
 {
-  if(key=='r')record=!record;
+  if(key=='r'){
+    if(!record) recnum++;
+    record=!record;
+  }
   
   if(key=='1')
   {
@@ -136,8 +141,8 @@ void keyPressed()
       }
       for (Boid b : flock.boids)
        {
-         float g = map(b.position.x,0,width,0,255);
-         float r = map(b.position.y,0,height,0,255);
+         float g = map(b.position.x,0,img.width,0,255);
+         float r = map(b.position.y,0,img.height,0,255);
          b.overrideColor = true;
          b.c = color(r-10,180-b.getNeighbours(flock.boids),g);
        }
@@ -191,8 +196,8 @@ void checkMode()
       }
       for (Boid b : flock.boids)
        {
-         float g = map(b.position.x,0,width,0,255);
-         float r = map(b.position.y,0,height,0,255);
+         float g = map(b.position.x,0,img.width,0,255);
+         float r = map(b.position.y,0,img.height,0,255);
          b.overrideColor = true;
          b.c = color(r-10,180-b.getNeighbours(flock.boids),g);
        }
@@ -243,7 +248,7 @@ void oscEvent(OscMessage theOscMessage) {
     maxforce = theOscMessage.get(0).floatValue();
   }   
   if (theOscMessage.checkAddrPattern("/connectionDist")==true) {
-    connectionDist = theOscMessage.get(0).floatValue()*width;
+    connectionDist = theOscMessage.get(0).floatValue()*img.width;
   } 
   if (theOscMessage.checkAddrPattern("/alpha")==true) {
     alpha = theOscMessage.get(0).floatValue();

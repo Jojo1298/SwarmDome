@@ -10,6 +10,10 @@ class Boid {
   OscMessage boidOsc;
   int index;
   int neighbours;
+  int visibleMode = 3; //0=invisble, 1 = fading out, 2 = fading in, 3 = visible
+  //int alpha = 0;
+  int invisibleFrame;
+  
 
   color c;
   boolean overrideColor = false;
@@ -140,9 +144,9 @@ class Boid {
   }
   // Wraparound
   void borders() {
-    PVector center = new PVector(width/2,height/2);
+    PVector center = new PVector(img.width/2,img.height/2);
     PVector dist = PVector.sub(center,position);
-    if (dist.mag() > width/2 || dist.mag() > height/2)
+    if (dist.mag() > img.width/2 || dist.mag() > img.height/2)
     {
      velocity.mult(-1);
      velocity.add(dist);
@@ -260,11 +264,28 @@ class Boid {
   {
     float neighbordist = connectionDist; 
     int Neighbours = getNeighbours(boids);
-    float g = map(position.x,0,width,0,255);
-    float b = map(position.y,0,height,0,255);
+    float g = map(position.x,0,img.width,0,255);
+    float b = map(position.y,0,img.height,0,255);
     
     for(Boid other: boids){
       float dist = PVector.dist(position, other.position);
+      
+      /*if(Neighbours==1)
+      {
+        visibleMode = 1;
+        invisibleFrame = frameCount+50;
+        visibleMode = 0;   
+      }
+      if(Neighbours>1 && visibleMode==0) visibleMode = 2;
+      
+      if(visibleMode == 0)
+      {
+        while(frameCount<invisibleFrame)
+        {
+          int preAlpha = invisibleFrame-frameCount;
+          alpha = int(map(preAlpha,50,0,0,255));
+        }
+      }*/
       
     if((dist>0) && (dist<neighbordist)){  
       //Neighbours++;    
